@@ -1,0 +1,41 @@
+{
+    "variables": {
+        "home": "{{env `HOME`}}"
+    },
+    "builders": [
+        {
+            "type": "docker",
+            "image": "ubuntu:trusty",
+            "export_path": "image.tar"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo apt-get update",
+                "sudo apt-get upgrade"
+             ]
+        },
+        {
+            "type": "shell",
+            "script": "scripts/puppet_setup.sh",
+            "pause_before": "10s"
+        },
+        {
+            "type": "puppet-masterless",
+            "manifest_file": "site.pp",
+            "module_paths": "{{user `home`}}/.puppetlabs/etc/code/modules"
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-import",
+                "repository": "cocos2d-x",
+                "tag": "latest"
+            }
+        ]
+    ]
+}
+

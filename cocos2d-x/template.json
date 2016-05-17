@@ -14,7 +14,7 @@
             "type": "shell",
             "inline": [
                 "sudo apt-get update",
-                "sudo apt-get upgrade"
+                "sudo apt-get -y upgrade"
              ]
         },
         {
@@ -25,7 +25,7 @@
         {
             "type": "puppet-masterless",
             "manifest_file": "site.pp",
-            "module_paths": "{{user `home`}}/.puppetlabs/etc/code/modules"
+            "module_paths": "{{user `home`}}/puppet/modules"
         }
     ],
     "post-processors": [
